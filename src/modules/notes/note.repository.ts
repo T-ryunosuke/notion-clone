@@ -30,5 +30,25 @@ export const noteRepository = {
         ? await query.eq("parent_document", parentDocumentId)
         : await query.is("parent_document", null);
     return data;
-  }
+  },
+
+  async findOne(userId: string, id: number) {
+    const { data } = await supabase
+      .from('notes')
+      .select()
+      .eq('id', id)
+      .eq('user_id', userId)
+      .single();
+    return data;
+  },
+
+  async update(id: number, note: { title?: string; content?: string }) {
+    const { data } = await supabase
+      .from('notes')
+      .update(note)
+      .eq('id', id)
+      .select()
+      .single();
+    return data;
+  },
 };
