@@ -32,6 +32,17 @@ export const noteRepository = {
     return data;
   },
 
+  async findByKeyword(userId: string, keyword: string) {
+    const { data } = await supabase
+      .from('notes')
+      .select()
+      .eq('user_id', userId)
+      // ilikeはPostgreSQLで使用されは大文字・小文字を区別しない
+      .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
+      .order('created_at', { ascending: false });
+    return data;
+  },
+
   async findOne(userId: string, id: number) {
     const { data } = await supabase
       .from('notes')
@@ -51,4 +62,12 @@ export const noteRepository = {
       .single();
     return data;
   },
+
+  async delete(id: number) {
+    const { error } = await supabase.rpc('delete_children_notes_recursively', {
+      note_id: id,
+    });
+    if (error !== null) throw new Error(error.message);
+    return true;
+  }
 };

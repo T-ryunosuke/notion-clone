@@ -41,7 +41,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      delete_children_notes_recursively: {
+        Args: {
+          note_id: number
+        }
+        Returns: {
+          content: string | null
+          created_at: string
+          id: number
+          parent_document: number | null
+          title: string | null
+          user_id: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
