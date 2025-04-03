@@ -6,6 +6,7 @@ import { useNoteStore } from './modules/notes/note.state';
 import { useEffect, useState } from 'react';
 import { noteRepository } from './modules/notes/note.repository';
 import { subscribe, unsubscribe } from './lib/supabase';
+import { Note } from './modules/notes/note.entity';
 
 const Layout = () => {
   const navigate = useNavigate();
